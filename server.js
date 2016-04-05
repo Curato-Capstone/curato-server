@@ -13,6 +13,9 @@ app
     .use(myRouter.routes())
     .use(myRouter.allowedMethods());
 
+app.use(ctx => {
+    ctx.body = 'Hello World';
+});
 
 // Start Server
 // --------------------------------------------------
