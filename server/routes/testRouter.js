@@ -2,16 +2,16 @@ export default function testRouter(router) {
     const myRouter = router();
 
     myRouter
-        .get('/test', function (ctx, next) {
+        .get('/test', (ctx) => {
             ctx.body = 'Hello World!';
         })
-        .post('/users', function (ctx, next) {
+        .post('/users', (ctx) => {
             // ...
         })
-        .put('/users/:id', function (ctx, next) {
+        .put('/users/:id', (ctx) => {
             // ...
         })
-        .del('/users/:id', function (ctx, next) {
+        .del('/users/:id', (ctx) => {
             // ...
         });
 
