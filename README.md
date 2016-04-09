@@ -43,7 +43,17 @@ npm run watch-lint
 
 ### Testing
 
-TBA GOTTA WRITE TESTSSES
+```bash
+npm run test
+```
+
+Write hella tests, ya feel
+
+If you want persist testing, run it using the command
+
+```bash
+npm run test:watch
+```
 
 ### Helpful Tools
 [nodemon](nodemon.io)
