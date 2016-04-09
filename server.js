@@ -16,6 +16,13 @@ app.use((ctx) => {
     ctx.body = 'Hello World';
 });
 
+// Models
+// --------------------------------------------------
+import User from './server/models/user'
+
+
+
+
 // Start Server
 // --------------------------------------------------
 const port = process.env.PORT || 8000;

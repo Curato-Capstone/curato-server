@@ -28,7 +28,8 @@
     "koa-convert": "^1.2.0",
     "koa-router": "^7.0.1",
     "superagent": "^1.6.1",
-    "superagent-bluebird-promise": "^3.0.0"
+    "superagent-bluebird-promise": "^3.0.0",
+    "thinky": "^2.2.7"
   },
   "devDependencies": {
     "babel": "^6.3.26",
