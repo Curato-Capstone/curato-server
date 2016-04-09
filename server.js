@@ -6,14 +6,13 @@ const app = new Koa();
 import router from 'koa-router';
 import bodyParser from 'koa-bodyparser';
 
-const myRouter = router();
+import testRouter from './server/routes/testRouter'
 
 app
     .use(bodyParser())
-    .use(myRouter.routes())
-    .use(myRouter.allowedMethods());
+    .use(testRouter(router).routes())
 
-app.use(ctx => {
+app.use((ctx) => {
     ctx.body = 'Hello World';
 });
 
