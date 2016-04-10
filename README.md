@@ -22,7 +22,7 @@ Flow type checks your code, so you can find errors quickly.
 If you want persist flow checking, make sure you have ```watch``` installed via brew, and run it using the command
 
 ```bash
-npm run watch-flow
+npm run flow:watch
 ```
 
 Don't commit if there are flow issues.
@@ -38,7 +38,7 @@ Make sure to resolve any issues before committing.
 If you want persist linting, make sure you have ```watch``` installed via brew, and run it using the command
 
 ```bash
-npm run watch-lint
+npm run lint:watch
 ```
 
 ### Testing

@@ -1,26 +1,30 @@
 import Koa from 'koa';
 const app = new Koa();
 
+
 // Routing
 // --------------------------------------------------
-import router from 'koa-router';
+// import router from 'koa-router';
 import bodyParser from 'koa-bodyparser';
 
-import testRouter from './server/routes/testRouter';
+import userRouter from './server/routes/userRouter';
+import placeRouter from './server/routes/placeRouter';
+import suggestionRouter from './server/routes/suggestionRouter';
 
 app
     .use(bodyParser())
-    .use(testRouter(router).routes());
+    .use(userRouter().routes())
+    .use(placeRouter().routes())
+    .use(suggestionRouter().routes());
 
 app.use((ctx) => {
     ctx.body = 'Hello World';
 });
 
+
 // Models
 // --------------------------------------------------
-import User from './server/models/user'
-
-
+import User from './server/models/user';
 
 
 // Start Server

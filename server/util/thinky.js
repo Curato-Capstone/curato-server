@@ -1,3 +1,3 @@
-import config from '../db-config.json'
+import config from '../db-config.json';
 
-export default require('thinky')(config)
+export default require('thinky')(config);
