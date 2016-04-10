@@ -9,6 +9,6 @@ const Place = thinky.createModel('Place', {
     name                   : type.string().min(1).max(60).required(),
     geometry               : type.object().required(),
     formatted_phone_number : type.string()
-}, { pk : 'id' });
+}, { pk : 'id', enforce_extra: 'strict' });
 
 export default Place;

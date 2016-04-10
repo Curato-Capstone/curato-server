@@ -9,6 +9,6 @@ const User = thinky.createModel('User', {
     ethnicity   : type.string().enum('white', 'black', 'latino', 'asian').optional(),
     favorites   : [type.number().optional()],
     preferences : type.object().required()
-}, { pk : 'email' });
+}, { pk : 'email', enforce_extra: 'strict' });
 
 export default User;
