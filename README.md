@@ -328,7 +328,7 @@ Responses:
 Function:
 &ensp;&ensp;&ensp;&ensp;Dislikes a suggestion given to the user.
 
-```json
+```javascript
 {
     user_id: (String, required) user's id,
     place_id: (String, required) id of place to be added to user's disliked suggestions
