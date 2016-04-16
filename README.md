@@ -63,7 +63,7 @@ Function:
 &ensp;&ensp;&ensp;&ensp;Authenticate user.
 
 Request Body:
-```json
+```yaml
 {
     email: (String, required) user's email,
     password: (String, required) user's password
@@ -71,7 +71,7 @@ Request Body:
 ```
 
 Response Body (200)
-```json
+```yaml
 {
     user_id: (String, required) authenticated user's id
 }
@@ -87,7 +87,7 @@ Function:
 &ensp;&ensp;&ensp;&ensp;Create account for user.
 
 Request Body
-```json
+```yaml
 {
     email: (String, required) user email,
     name: (String, required) user's name,
@@ -107,7 +107,7 @@ Request Body
 ```
 
 Response Body (201)
-```json
+```yaml
 {
     user_id: (String, required): newly created user's id
 }
@@ -137,7 +137,7 @@ Parameters
 &ensp;&ensp;&ensp;&ensp;- id: current user's id
 
 Response Body (200)
-```json
+```yaml
 {
     id: (String, required) user id,
     email: (String, required) user email,
@@ -170,7 +170,7 @@ Parameters
 &ensp;&ensp;&ensp;&ensp;- id: current user's id
 
 Response Body (200)
-```json
+```yaml
 [
     {
         id: (String, required) id of place/business,
@@ -210,7 +210,7 @@ Parameters
 &ensp;&ensp;&ensp;&ensp;- id: current user's id
 
 Request Body
-```json
+```yaml
 {
     preferences: {
         price: (Int, optional) user's rating for importance of this category,
@@ -226,7 +226,7 @@ Request Body
 ```
 
 Response Body (200)
-```json
+```yaml
 {
     preferences: {
             price: (Int, optional) updated ratings for importance of each category,
@@ -253,7 +253,7 @@ Function:
 &ensp;&ensp;&ensp;&ensp;Get suggestions for this user based on their preferences.
 
 Response Body (200)
-```json
+```yaml
 [
     {
         id: (String, required) id of place/business,
@@ -292,7 +292,7 @@ Function:
 &ensp;&ensp;&ensp;&ensp;Adds a place to the user's favorites list.
 
 Request Body
-```json
+```yaml
 {
     user_id: (String, required) user's id,
     place_id: (String, required) id of place to be added to user's favorites
@@ -310,7 +310,7 @@ Responses:
 Function:
 &ensp;&ensp;&ensp;&ensp;Removes a place from the user's favorites list.
 
-```json
+```yaml
 {
     user_id: (String, required) user's id,
     place_id: (String, required) id of place to be removed from user's favorites
