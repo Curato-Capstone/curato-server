@@ -178,7 +178,7 @@ Response Body (200)
         formatted_address: (String, required) formatted address of place,
         opening_hours: {
             weekday_text: [
-                (String, required) place's weekly open hours for each day in the format "Monday: 10:00 AM \u2013 5:00 PM"
+                (String, required) place's weekly open hours for each day in the format: "Monday: 10:00 AM \u2013 5:00 PM"
             ]
         },
         website: (String, required) places's website,
@@ -261,12 +261,12 @@ Response Body (200)
         formatted_address: (String, required) formatted address of place,
         opening_hours: {
             weekday_text: [
-                (String, required) place's weekly open hours for each day in the format "Monday: 10:00 AM \u2013 5:00 PM"
+                (String, required) place's weekly open hours for each day in the format: "Monday: 10:00 AM \u2013 5:00 PM"
             ]
         },
         website: (String, required) places's website,
         tags: [
-            (String, required) tags associated witht his place such as "mall", "movies", "hiking", or "restaurant"
+            (String, required) tags associated with this place such as "mall", "movies", "hiking", or "restaurant"
         ],
         geometry: {
             location: {
