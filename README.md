@@ -337,10 +337,8 @@ Function:
 ```
 
 Responses:
-
-&ensp;&ensp;&ensp;&ensp;- 204: place successfully added to user's disliked suggestions
-
-&ensp;&ensp;&ensp;&ensp;- 400: failed to dislike place for user
+- 204: place successfully added to user's disliked suggestions
+- 400: failed to dislike place for user
 
 ***
 
