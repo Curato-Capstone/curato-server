@@ -326,6 +326,7 @@ Responses:
 **_PUT /places/dislike_**
 
 Function:
+
 &ensp;&ensp;&ensp;&ensp;Dislikes a suggestion given to the user.
 
 ```yaml
@@ -336,7 +337,9 @@ Function:
 ```
 
 Responses:
+
 &ensp;&ensp;&ensp;&ensp;- 204: place successfully added to user's disliked suggestions
+
 &ensp;&ensp;&ensp;&ensp;- 400: failed to dislike place for user
 
 ***
