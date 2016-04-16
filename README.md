@@ -330,7 +330,7 @@ Function:
 
 ```javascript
 {
-    user_id: (String, required) user's id,
+    user_id: (String, required) user\'s id,
     place_id: (String, required) id of place to be added to user's disliked suggestions
 }
 ```
