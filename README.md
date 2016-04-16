@@ -60,7 +60,7 @@ npm run test:watch
 **_POST /user/signin_**
 
 Function:
-&ensp;&ensp;&ensp;&ensp;Authenticate user.
+Authenticate user.
 
 Request Body:
 ```yaml
@@ -84,7 +84,7 @@ Response (401): failed to authenticate user
 **_POST /user/signup_**
 
 Function:
-&ensp;&ensp;&ensp;&ensp;Create account for user.
+Create account for user.
 
 Request Body
 ```yaml
@@ -120,21 +120,21 @@ Response (400): failed to create account for user
 **_POST /user/signout_**
 
 Function:
-&ensp;&ensp;&ensp;&ensp;Sign the current user out.
+Sign the current user out.
 
 Responses:
-&ensp;&ensp;&ensp;&ensp;- 204: user successfully signed out
-&ensp;&ensp;&ensp;&ensp;- 400: failed to sign the user out
+- 204: user successfully signed out
+- 400: failed to sign the user out
 
 ***
 
 **_GET /user/:id_**
 
 Function:
-&ensp;&ensp;&ensp;&ensp;Get user data.
+Get user data.
 
 Parameters
-&ensp;&ensp;&ensp;&ensp;- id: current user's id
+- id: current user's id
 
 Response Body (200)
 ```yaml
@@ -164,10 +164,10 @@ Response (404): user not found
 **_GET /user/:id/favorites_**
 
 Function:
-&ensp;&ensp;&ensp;&ensp;Get user's list of favorited businesses.
+Get user's list of favorite places.
 
 Parameters
-&ensp;&ensp;&ensp;&ensp;- id: current user's id
+- id: current user's id
 
 Response Body (200)
 ```yaml
@@ -204,10 +204,10 @@ Response (404): user not found
 **_PUT /user/:id/preferences_**
 
 Function:
-&ensp;&ensp;&ensp;&ensp;Change user's preferences. Only preference fields sent as part of request body will be updated.
+Change user's preferences. Only preference fields sent as part of request body will be updated.
 
 Parameters
-&ensp;&ensp;&ensp;&ensp;- id: current user's id
+- id: current user's id
 
 Request Body
 ```yaml
@@ -250,7 +250,7 @@ Response (400): failed to update user's preferences
 **_GET /suggestions_**
 
 Function:
-&ensp;&ensp;&ensp;&ensp;Get suggestions for this user based on their preferences.
+Get suggestions for this user based on their preferences.
 
 Response Body (200)
 ```yaml
@@ -289,7 +289,7 @@ Response (400): failed to retrieve suggestions for user
 **_PUT /places/favorite_**
 
 Function:
-&ensp;&ensp;&ensp;&ensp;Adds a place to the user's favorites list.
+Adds a place to the user's favorites list.
 
 Request Body
 ```yaml
@@ -300,15 +300,15 @@ Request Body
 ```
 
 Responses:
-&ensp;&ensp;&ensp;&ensp;- 204: place successfully added to favorites list
-&ensp;&ensp;&ensp;&ensp;- 400: failed to add to user's list
+- 204: place successfully added to favorites list
+- 400: failed to add to user's list
 
 ***
 
 **_PUT /places/remove_**
 
 Function:
-&ensp;&ensp;&ensp;&ensp;Removes a place from the user's favorites list.
+Removes a place from the user's favorites list.
 
 ```yaml
 {
@@ -318,16 +318,15 @@ Function:
 ```
 
 Responses:
-&ensp;&ensp;&ensp;&ensp;- 204: place successfully removed from favorites list
-&ensp;&ensp;&ensp;&ensp;- 400: failed to remove place from user's list
+- 204: place successfully removed from favorites list
+- 400: failed to remove place from user's list
 
 ***
 
 **_PUT /places/dislike_**
 
 Function:
-
-&ensp;&ensp;&ensp;&ensp;Dislikes a suggestion given to the user.
+Dislikes a suggestion given to the user.
 
 ```yaml
 {
