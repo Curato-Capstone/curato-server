@@ -7,7 +7,8 @@ const User = thinky.createModel('User', {
     password    : type.string().min(5).max(20).required(),
     age         : type.number().min(1).max(99).required(),
     ethnicity   : type.string().enum('white', 'black', 'latino', 'asian').optional(),
-    favorites   : [type.number().optional()],
+    favorites   : [type.string().optional()],
+    disliked    : [type.string().optional()],
     preferences : type.object().required()
 }, { pk : 'email', enforce_extra: 'strict' });
 

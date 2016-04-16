@@ -5,8 +5,9 @@ export default function placeRouter() {
     const router = Router({ prefix: '/places' });
 
     router
-        .put('/save', async (ctx) => {})
-        .put('/remove', async (ctx) => {});
+        .put('/favorite', async (ctx) => {})
+        .put('/remove', async (ctx) => {})
+        .put('/dislike', async (ctx) => {});
 
     return router;
 }
