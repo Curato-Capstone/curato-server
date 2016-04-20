@@ -22,7 +22,7 @@ Flow type checks your code, so you can find errors quickly.
 If you want persist flow checking, make sure you have ```watch``` installed via brew, and run it using the command
 
 ```bash
-npm run watch-flow
+npm run flow:watch
 ```
 
 Don't commit if there are flow issues.
@@ -38,7 +38,7 @@ Make sure to resolve any issues before committing.
 If you want persist linting, make sure you have ```watch``` installed via brew, and run it using the command
 
 ```bash
-npm run watch-lint
+npm run lint:watch
 ```
 
 ### Testing
@@ -54,6 +54,333 @@ If you want persist testing, run it using the command
 ```bash
 npm run test:watch
 ```
+
+## User API
+
+**_POST /user/signin_**
+
+Function:
+Authenticate user.
+
+Request Body:
+```yaml
+{
+    email: (String, required) user's email,
+    password: (String, required) user's password
+}
+```
+
+Response Body (200)
+```yaml
+{
+    id: (String, required) user id,
+    email: (String, required) user email,
+    name: (String, required) user's name,
+    age: (Integer, required) user's age,
+    gender: (String, optional) user's specified gender, if provided,
+    ethnicity: (String, optional) user's ethnicity, if specified,
+    preferences: {
+        price: (Int, required) user's rating for importance of this category,
+        culture: (Int, required),
+        food: (Int, required),
+        outdoors: (Int, required),
+        entertainment: (Int, required),
+        relaxation: (Int, required),
+        shopping: (Int, required),
+        sports: (Int, required)
+    }
+}
+```
+
+Response (401): failed to authenticate user
+
+***
+
+**_POST /user/signup_**
+
+Function:
+Create account for user.
+
+Request Body
+```yaml
+{
+    email: (String, required) user email,
+    name: (String, required) user's name,
+    age: (Integer, required) user's age,
+    gender: (String, optional) user's specified gender, if provided,
+    ethnicity: (String, optional) user's ethnicity, if specified,
+    preferences: {
+        price: (Int, required) user's rating for importance of this category,
+        culture: (Int, required),
+        food: (Int, required),
+        outdoors: (Int, required),
+        entertainment: (Int, required),
+        relaxation: (Int, required),
+        shopping: (Int, required),
+        sports: (Int, required)
+    }
+}
+```
+
+Response Body (201)
+```yaml
+{
+    id: (String, required) user id,
+    email: (String, required) user email,
+    name: (String, required) user's name,
+    age: (Integer, required) user's age,
+    gender: (String, optional) user's specified gender, if provided,
+    ethnicity: (String, optional) user's ethnicity, if specified,
+    preferences: {
+        price: (Int, required) user's rating for importance of this category,
+        culture: (Int, required),
+        food: (Int, required),
+        outdoors: (Int, required),
+        entertainment: (Int, required),
+        relaxation: (Int, required),
+        shopping: (Int, required),
+        sports: (Int, required)
+    }
+}
+```
+
+Response (400): failed to create account for user
+
+***
+
+**_POST /user/signout_**
+
+Function:
+Sign the current user out.
+
+Responses:
+- 204: user successfully signed out
+- 400: failed to sign the user out
+
+***
+
+**_GET /user/:id_**
+
+Function:
+Get user data.
+
+Parameters
+- id: current user's id
+
+Response Body (200)
+```yaml
+{
+    id: (String, required) user id,
+    email: (String, required) user email,
+    name: (String, required) user's name,
+    age: (Integer, required) user's age,
+    gender: (String, optional) user's specified gender, if provided,
+    ethnicity: (String, optional) user's ethnicity, if specified,
+    preferences: {
+        price: (Int, required) user's rating for importance of this category,
+        culture: (Int, required),
+        food: (Int, required),
+        outdoors: (Int, required),
+        entertainment: (Int, required),
+        relaxation: (Int, required),
+        shopping: (Int, required),
+        sports: (Int, required)
+    }
+}
+```
+
+Response (404): user not found
+
+***
+
+**_GET /user/:id/favorites_**
+
+Function:
+Get user's list of favorite places.
+
+Parameters
+- id: current user's id
+
+Response Body (200)
+```yaml
+[
+    {
+        id: (String, required) id of place/business,
+        name: (String, required) name of place,
+        formatted_address: (String, required) formatted address of place,
+        opening_hours: {
+            weekday_text: [
+                (String, required) place's weekly open hours for each day in the format: "Monday: 10:00 AM \u2013 5:00 PM"
+            ]
+        },
+        website: (String, required) places's website,
+        tags: [
+            (String, required) tags associated witht his place such as "mall", "movies", "hiking", or "restaurant"
+        ],
+        geometry: {
+            location: {
+                lat: (String, required) latitude,
+                lng: (String, required) longitude
+            }
+        },
+        formatted_phone_number: (String, required) formatted phone number of this place in the format (206) 123-4567,
+        likes: (Int, required) total number of people who have added this place to their favorites list
+    }
+]
+```
+
+Response (404): user not found
+
+***
+
+**_PUT /user/:id/preferences_**
+
+Function:
+Change user's preferences. Only preference fields sent as part of request body will be updated.
+
+Parameters
+- id: current user's id
+
+Request Body
+```yaml
+{
+    preferences: {
+        price: (Int, optional) user's rating for importance of this category,
+        culture: (Int, optional),
+        food: (Int, optional),
+        outdoors: (Int, optional),
+        entertainment: (Int, optional),
+        relaxation: (Int, optional),
+        shopping: (Int, optional),
+        sports: (Int, optional)
+    }
+}
+```
+
+Response Body (200)
+```yaml
+{
+    preferences: {
+            price: (Int, optional) updated ratings for importance of each category,
+            culture: (Int, optional),
+            food: (Int, optional),
+            outdoors: (Int, optional),
+            entertainment: (Int, optional),
+            relaxation: (Int, optional),
+            shopping: (Int, optional),
+            sports: (Int, optional)
+        }
+}
+```
+
+Response (400): failed to update user's preferences
+
+***
+
+## Suggestion API
+
+**_GET /suggestions/:id_**
+
+Function:
+Get suggestions for this user based on their preferences.
+
+Parameters
+- id: the user's id
+
+Response Body (200)
+```yaml
+[
+    {
+        id: (String, required) id of place/business,
+        name: (String, required) name of place,
+        formatted_address: (String, required) formatted address of place,
+        opening_hours: {
+            weekday_text: [
+                (String, required) place's weekly open hours for each day in the format: "Monday: 10:00 AM \u2013 5:00 PM"
+            ]
+        },
+        website: (String, required) places's website,
+        tags: [
+            (String, required) tags associated with this place such as "mall", "movies", "hiking", or "restaurant"
+        ],
+        geometry: {
+            location: {
+                lat: (String, required) latitude,
+                lng: (String, required) longitude
+            }
+        },
+        formatted_phone_number: (String, required) formatted phone number of this place in the format (206) 123-4567,
+        likes: (Int, required) total number of people who have added this place to their favorites list
+    }
+]
+```
+
+Response (400): failed to retrieve suggestions for user
+
+***
+
+## Places API
+
+**_PUT /place/:id/favorite_**
+
+Function:
+Adds a place to the user's favorites list.
+
+Parameters
+- id: id of the place to add to the user's favorites list
+
+Request Body
+```yaml
+{
+    userId: (String, required) user's id
+}
+```
+
+Responses:
+- 204: place successfully added to favorites list
+- 400: failed to add to user's list
+
+***
+
+**_PUT /place/:id/remove_**
+
+Function:
+Removes a place from the user's favorites list.
+
+Parameters
+- id: id of the place to add to the user's favorites list
+
+```yaml
+{
+    userId: (String, required) user's id
+}
+```
+
+Responses:
+- 204: place successfully removed from favorites list
+- 400: failed to remove place from user's list
+
+***
+
+**_PUT /place/:id/dislike_**
+
+Function:
+Dislikes a suggestion given to the user.
+
+Parameters
+- id: id of the place to add to the user's favorites list
+
+```yaml
+{
+    userId: (String, required) user's id
+}
+```
+
+Responses:
+- 204: place successfully added to user's disliked suggestions
+- 400: failed to dislike place for user
+
+***
 
 ### Helpful Tools
 [nodemon](nodemon.io)

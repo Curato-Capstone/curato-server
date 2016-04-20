@@ -1,12 +1,15 @@
-// import thinky from '../util/thinky'
-// const type = thinky.type
-//
-// const User = thinky.createModel("User", {
-//     email     : type.string().email(),
-//     name      : type.string().min(1).max(30).alphanum(),
-//     password  : type.string().min(5).max(20),
-//     age       : type.number().min(1).max(99),
-//     ethnicity : type.string().enum('white', 'black', 'latino', 'asian')
-// }, {pk : "email"});
-//
-// export default User;
+import thinky from '../util/thinky';
+const type = thinky.type;
+
+const Place = thinky.createModel('places', {
+    name                   : type.string().min(1).max(60).required(),
+    formatted_address      : type.string().required(),
+    opening_hours          : type.object().required(),
+    website                : type.string().required(),
+    tags                   : type.array().required(),
+    geometry               : type.object().required(),
+    formatted_phone_number : type.string().required(),
+    likes                  : type.number().required()
+}, { pk : 'id', enforce_extra: 'strict' });
+
+export default Place;
