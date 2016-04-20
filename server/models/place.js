@@ -1,7 +1,7 @@
 import thinky from '../util/thinky';
 const type = thinky.type;
 
-const Place = thinky.createModel('Place', {
+const Place = thinky.createModel('places', {
     name                   : type.string().min(1).max(60).required(),
     formatted_address      : type.string().required(),
     opening_hours          : type.object().required(),
