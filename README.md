@@ -73,7 +73,22 @@ Request Body:
 Response Body (200)
 ```yaml
 {
-    user_id: (String, required) authenticated user's id
+    id: (String, required) user id,
+    email: (String, required) user email,
+    name: (String, required) user's name,
+    age: (Integer, required) user's age,
+    gender: (String, optional) user's specified gender, if provided,
+    ethnicity: (String, optional) user's ethnicity, if specified,
+    preferences: {
+        price: (Int, required) user's rating for importance of this category,
+        culture: (Int, required),
+        food: (Int, required),
+        outdoors: (Int, required),
+        entertainment: (Int, required),
+        relaxation: (Int, required),
+        shopping: (Int, required),
+        sports: (Int, required)
+    }
 }
 ```
 
@@ -92,6 +107,7 @@ Request Body
     email: (String, required) user email,
     name: (String, required) user's name,
     age: (Integer, required) user's age,
+    gender: (String, optional) user's specified gender, if provided,
     ethnicity: (String, optional) user's ethnicity, if specified,
     preferences: {
         price: (Int, required) user's rating for importance of this category,
@@ -109,7 +125,22 @@ Request Body
 Response Body (201)
 ```yaml
 {
-    user_id: (String, required): newly created user's id
+    id: (String, required) user id,
+    email: (String, required) user email,
+    name: (String, required) user's name,
+    age: (Integer, required) user's age,
+    gender: (String, optional) user's specified gender, if provided,
+    ethnicity: (String, optional) user's ethnicity, if specified,
+    preferences: {
+        price: (Int, required) user's rating for importance of this category,
+        culture: (Int, required),
+        food: (Int, required),
+        outdoors: (Int, required),
+        entertainment: (Int, required),
+        relaxation: (Int, required),
+        shopping: (Int, required),
+        sports: (Int, required)
+    }
 }
 ```
 
@@ -143,6 +174,7 @@ Response Body (200)
     email: (String, required) user email,
     name: (String, required) user's name,
     age: (Integer, required) user's age,
+    gender: (String, optional) user's specified gender, if provided,
     ethnicity: (String, optional) user's ethnicity, if specified,
     preferences: {
         price: (Int, required) user's rating for importance of this category,
@@ -247,10 +279,13 @@ Response (400): failed to update user's preferences
 
 ## Suggestion API
 
-**_GET /suggestions_**
+**_GET /suggestions/:id_**
 
 Function:
 Get suggestions for this user based on their preferences.
+
+Parameters
+- id: the user's id
 
 Response Body (200)
 ```yaml
@@ -286,16 +321,18 @@ Response (400): failed to retrieve suggestions for user
 
 ## Places API
 
-**_PUT /places/favorite_**
+**_PUT /place/:id/favorite_**
 
 Function:
 Adds a place to the user's favorites list.
 
+Parameters
+- id: id of the place to add to the user's favorites list
+
 Request Body
 ```yaml
 {
-    user_id: (String, required) user's id,
-    place_id: (String, required) id of place to be added to user's favorites
+    userId: (String, required) user's id
 }
 ```
 
@@ -305,15 +342,17 @@ Responses:
 
 ***
 
-**_PUT /places/remove_**
+**_PUT /place/:id/remove_**
 
 Function:
 Removes a place from the user's favorites list.
 
+Parameters
+- id: id of the place to add to the user's favorites list
+
 ```yaml
 {
-    user_id: (String, required) user's id,
-    place_id: (String, required) id of place to be removed from user's favorites
+    userId: (String, required) user's id
 }
 ```
 
@@ -323,15 +362,17 @@ Responses:
 
 ***
 
-**_PUT /places/dislike_**
+**_PUT /place/:id/dislike_**
 
 Function:
 Dislikes a suggestion given to the user.
 
+Parameters
+- id: id of the place to add to the user's favorites list
+
 ```yaml
 {
-    user_id: (String, required) user's id,
-    place_id: (String, required) id of place to be added to user's disliked suggestions
+    userId: (String, required) user's id
 }
 ```
 
