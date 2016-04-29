@@ -26,7 +26,7 @@ export default function placeRouter() {
                         favorites: row('favorites').filter((item) => {
                             return item.ne(ctx.params.id);
                         })
-                    }
+                    };
                 }).run();
                 ctx.status = 204;
             } catch (error) {
