@@ -2,7 +2,7 @@ import User from '../models/user';
 import Router from 'koa-router';
 
 
-export default function userRouter() {
+export default function userRouter(passport) {
     const router = new Router({ prefix: '/user' });
 
     router
