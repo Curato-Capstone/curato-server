@@ -159,13 +159,10 @@ Responses:
 
 ***
 
-**_GET /user/:id_**
+**_GET /user/_**
 
 Function:
 Get user data.
-
-Parameters
-- id: current user's id
 
 Response Body (200)
 ```yaml
@@ -193,38 +190,42 @@ Response (404): user not found
 
 ***
 
-**_GET /user/:id/favorites_**
+**_GET /user/favorites_**
 
 Function:
 Get user's list of favorite places.
-
-Parameters
-- id: current user's id
 
 Response Body (200)
 ```yaml
 [
     {
-        id: (String, required) id of place/business,
-        name: (String, required) name of place,
-        formatted_address: (String, required) formatted address of place,
-        opening_hours: {
-            weekday_text: [
-                (String, required) place's weekly open hours for each day in the format: "Monday: 10:00 AM \u2013 5:00 PM"
-            ]
-        },
-        website: (String, required) places's website,
-        tags: [
-            (String, required) tags associated witht his place such as "mall", "movies", "hiking", or "restaurant"
-        ],
-        geometry: {
-            location: {
-                lat: (String, required) latitude,
-                lng: (String, required) longitude
-            }
-        },
-        formatted_phone_number: (String, required) formatted phone number of this place in the format (206) 123-4567,
-        likes: (Int, required) total number of people who have added this place to their favorites list
+        "allowMenuUrlEdit": (Boolean), not relevant to user,
+        "categories": (Array of JSON objects) some stuff in them that the client doesn't need to see
+         "contact": {
+            "formattedPhone": (String) formatted like so: "(xxx) xxx-xxxx",
+            "phone": (String) another phone number format: "xxxxxxxxxxx"
+         },
+         "hereNow": (JSON object) if we used Foursquare accounts this would matter,
+         "id": (String) venue id,
+         "location": {
+            "address": (String) street address,
+            "cc": (String) country code,
+            "city": (String) city name,
+            "country": (String) country name,
+            "distance": (Int, probably) distance from given coords in meters,
+            "formattedAddress": (Array of strings) streed address, city/state/zip, country,
+            "lat": (Float) lat,
+            "lng": (Float) long,
+            "postalCode": (String) zipcode,
+            "state": (String) state name abbreviation
+         },
+         "name": (String) name of business/point of interest,
+         "referralId": (String) meh,
+         "specials": (Object) also meh,
+         "stats": (Object) some info about people who have left tips or checked in here,
+         "url": (String) url for the place,
+         "venueChains": (Array of strings) venue id's for other stores in the chain,
+         "verified": (Boolean) are you real or are you fake?
     }
 ]
 ```
@@ -233,26 +234,28 @@ Response (404): user not found
 
 ***
 
-**_PUT /user/:id/preferences_**
+**_PUT /user/_**
 
 Function:
-Change user's preferences. Only preference fields sent as part of request body will be updated.
-
-Parameters
-- id: current user's id
+Change user's info. Only fields/objects sent as part of request body will be updated.
 
 Request Body
 ```yaml
 {
+    email: (String, required) user email,
+    name: (String, required) user's name,
+    age: (Integer, required) user's age,
+    gender: (String, optional) user's specified gender, if provided,
+    ethnicity: (String, optional) user's ethnicity, if specified,
     preferences: {
-        price: (Int, optional) user's rating for importance of this category,
-        culture: (Int, optional),
-        food: (Int, optional),
-        outdoors: (Int, optional),
-        entertainment: (Int, optional),
-        relaxation: (Int, optional),
-        shopping: (Int, optional),
-        sports: (Int, optional)
+        price: (Int, required) user's rating for importance of this category,
+        culture: (Int, required),
+        food: (Int, required),
+        outdoors: (Int, required),
+        entertainment: (Int, required),
+        relaxation: (Int, required),
+        shopping: (Int, required),
+        sports: (Int, required)
     }
 }
 ```
@@ -260,16 +263,21 @@ Request Body
 Response Body (200)
 ```yaml
 {
+    email: (String, required) user email,
+    name: (String, required) user's name,
+    age: (Integer, required) user's age,
+    gender: (String, optional) user's specified gender, if provided,
+    ethnicity: (String, optional) user's ethnicity, if specified,
     preferences: {
-            price: (Int, optional) updated ratings for importance of each category,
-            culture: (Int, optional),
-            food: (Int, optional),
-            outdoors: (Int, optional),
-            entertainment: (Int, optional),
-            relaxation: (Int, optional),
-            shopping: (Int, optional),
-            sports: (Int, optional)
-        }
+        price: (Int, required) user's rating for importance of this category,
+        culture: (Int, required),
+        food: (Int, required),
+        outdoors: (Int, required),
+        entertainment: (Int, required),
+        relaxation: (Int, required),
+        shopping: (Int, required),
+        sports: (Int, required)
+    }
 }
 ```
 
@@ -291,26 +299,33 @@ Response Body (200)
 ```yaml
 [
     {
-        id: (String, required) id of place/business,
-        name: (String, required) name of place,
-        formatted_address: (String, required) formatted address of place,
-        opening_hours: {
-            weekday_text: [
-                (String, required) place's weekly open hours for each day in the format: "Monday: 10:00 AM \u2013 5:00 PM"
-            ]
-        },
-        website: (String, required) places's website,
-        tags: [
-            (String, required) tags associated with this place such as "mall", "movies", "hiking", or "restaurant"
-        ],
-        geometry: {
-            location: {
-                lat: (String, required) latitude,
-                lng: (String, required) longitude
-            }
-        },
-        formatted_phone_number: (String, required) formatted phone number of this place in the format (206) 123-4567,
-        likes: (Int, required) total number of people who have added this place to their favorites list
+        "allowMenuUrlEdit": (Boolean), not relevant to user,
+        "categories": (Array of JSON objects) some stuff in them that the client doesn't need to see
+         "contact": {
+            "formattedPhone": (String) formatted like so: "(xxx) xxx-xxxx",
+            "phone": (String) another phone number format: "xxxxxxxxxxx"
+         },
+         "hereNow": (JSON object) if we used Foursquare accounts this would matter,
+         "id": (String) venue id,
+         "location": {
+            "address": (String) street address,
+            "cc": (String) country code,
+            "city": (String) city name,
+            "country": (String) country name,
+            "distance": (Int, probably) distance from given coords in meters,
+            "formattedAddress": (Array of strings) streed address, city/state/zip, country,
+            "lat": (Float) lat,
+            "lng": (Float) long,
+            "postalCode": (String) zipcode,
+            "state": (String) state name abbreviation
+         },
+         "name": (String) name of business/point of interest,
+         "referralId": (String) meh,
+         "specials": (Object) also meh,
+         "stats": (Object) some info about people who have left tips or checked in here,
+         "url": (String) url for the place,
+         "venueChains": (Array of strings) venue id's for other stores in the chain,
+         "verified": (Boolean) are you real or are you fake?
     }
 ]
 ```
@@ -321,18 +336,15 @@ Response (400): failed to retrieve suggestions for user
 
 ## Places API
 
-**_PUT /place/:id/favorite_**
+**_PUT /place/favorite_**
 
 Function:
 Adds a place to the user's favorites list.
 
-Parameters
-- id: id of the place to add to the user's favorites list
-
 Request Body
 ```yaml
 {
-    userId: (String, required) user's id
+    id: (String, required) id of place to be added to user's favorites
 }
 ```
 
@@ -342,17 +354,14 @@ Responses:
 
 ***
 
-**_PUT /place/:id/remove_**
+**_PUT /place/remove_**
 
 Function:
 Removes a place from the user's favorites list.
 
-Parameters
-- id: id of the place to add to the user's favorites list
-
 ```yaml
 {
-    userId: (String, required) user's id
+    id: (String, required) id of place to be removed from user's favorites list
 }
 ```
 
@@ -362,17 +371,14 @@ Responses:
 
 ***
 
-**_PUT /place/:id/dislike_**
+**_PUT /place/dislike_**
 
 Function:
 Dislikes a suggestion given to the user.
 
-Parameters
-- id: id of the place to add to the user's favorites list
-
 ```yaml
 {
-    userId: (String, required) user's id
+    id: (String, required) id of place to be added to user's dislikes
 }
 ```
 
