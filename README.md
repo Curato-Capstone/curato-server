@@ -106,6 +106,7 @@ Request Body
 {
     email: (String, required) user email,
     name: (String, required) user's name,
+    password: (String, required) user's password,
     age: (Integer, required) user's age,
     gender: (String, optional) user's specified gender, if provided,
     ethnicity: (String, optional) user's ethnicity, if specified,
@@ -263,6 +264,7 @@ Request Body
 Response Body (200)
 ```yaml
 {
+    id: (String, required) user id,
     email: (String, required) user email,
     name: (String, required) user's name,
     age: (Integer, required) user's age,
@@ -336,7 +338,7 @@ Response (400): failed to retrieve suggestions for user
 
 ## Places API
 
-**_PUT /place/favorite_**
+**_POST /place/favorites/add_**
 
 Function:
 Adds a place to the user's favorites list.
@@ -354,7 +356,7 @@ Responses:
 
 ***
 
-**_PUT /place/remove_**
+**_POST /place/favorites/remove_**
 
 Function:
 Removes a place from the user's favorites list.
@@ -371,7 +373,7 @@ Responses:
 
 ***
 
-**_PUT /place/dislike_**
+**_POST /place/dislike_**
 
 Function:
 Dislikes a suggestion given to the user.

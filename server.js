@@ -6,16 +6,16 @@ import convert from 'koa-convert';
 // Authentication
 // --------------------------------------------------
 import passport from './server/util/passport';
-//import session from 'koa-session';
-//
-//if (!process.env.SIG_SECRET) {
-//    console.error('please set SIG_SECRET, try: \nexport SIG_SECRET=$(uuidgen)');
-//    process.exit(1);
-//}
-//app.keys = [process.env.SIG_SECRET];
-//app.use(convert(session(app)));
-app.use(convert(passport.initialize()));
-app.use(convert(passport.session()));
+import session from 'koa-session';
+
+if (!process.env.SIG_SECRET) {
+    console.error('please set SIG_SECRET, try: \nexport SIG_SECRET=$(uuidgen)');
+    process.exit(1);
+}
+app.keys = [process.env.SIG_SECRET];
+app.use(convert(session(app)));
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 // Routing
@@ -34,11 +34,6 @@ app
     .use(userRouter(passport).routes())
     .use(placeRouter().routes())
     .use(suggestionRouter().routes());
-
-
-// Models
-// --------------------------------------------------
-import User from './server/models/user';
 
 
 // Start Server
