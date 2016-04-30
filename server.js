@@ -1,12 +1,21 @@
 import Koa from 'koa';
 const app = new Koa();
+import convert from 'koa-convert';
 
 
 // Authentication
 // --------------------------------------------------
 import passport from './server/util/passport';
-app.use(passport.initialize());
-app.use(passport.session());
+//import session from 'koa-session';
+//
+//if (!process.env.SIG_SECRET) {
+//    console.error('please set SIG_SECRET, try: \nexport SIG_SECRET=$(uuidgen)');
+//    process.exit(1);
+//}
+//app.keys = [process.env.SIG_SECRET];
+//app.use(convert(session(app)));
+app.use(convert(passport.initialize()));
+app.use(convert(passport.session()));
 
 
 // Routing
@@ -21,14 +30,10 @@ import suggestionRouter from './server/routes/suggestionRouter';
 
 app
     .use(bodyParser())
-    .use(cors())
+    .use(convert(cors()))
     .use(userRouter(passport).routes())
     .use(placeRouter().routes())
     .use(suggestionRouter().routes());
-
-app.use((ctx) => {
-    ctx.body = 'Hello World';
-});
 
 
 // Models

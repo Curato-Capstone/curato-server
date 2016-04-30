@@ -21,31 +21,47 @@ export default function userRouter(passport) {
                 console.error(error);
             }
         })
-        .post('/signin', async (ctx) => {
-            try {
-                ctx.body = await User.filter((user) => {
-                    return user('email').eq(ctx.request.body.email);
-                }).run();
-                // after making email a secondary index:
-                // ctx.body = await User.getAll(ctx.request.body.email, index='email').run();
-                // TODO: validate password
-            } catch (error) {
-                console.error(error);
-                ctx.status = 401;
-                ctx.body = 'Failed to authenticate user.';
-            }
+        .post('/signin',
+            passport.authenticate('local-signin', function *(err, user, info) {
+                if (err) {
+                    console.error(err);
+                }
+                if (!user) {
+                    console.error('user not found');
+                }
+                console.log(info);
+            }),
+            async (ctx) => {
+            console.log('\n\nhere!!!!!!\n');
+            ctx.body = 'signed in successfully. user id: ' + ctx.request.user.id;
+
+            //try {
+            //    ctx.body = await User.filter((user) => {
+            //        return user('email').eq(ctx.request.body.email);
+            //    }).run();
+            //    // after making email a secondary index:
+            //    // ctx.body = await User.getAll(ctx.request.body.email, index='email').run();
+            //    // TODO: validate password
+            //} catch (error) {
+            //    console.error(error);
+            //    ctx.status = 401;
+            //    ctx.body = 'Failed to authenticate user.';
+            //}
         })
-        .post('/signup', async (ctx) => {
-            try {
-                // TODO: validate request body, implement unique email enforcement
-                // add empty arrays for favorites and dislikes if the fields don't exist
-                ctx.body = await User.save(ctx.request.body);
-                ctx.status = 201;
-            } catch (error) {
-                console.error(error);
-                ctx.status = 400;
-                ctx.body = 'Failed to create account for user.';
-            }
+        .post('/signup', passport.authenticate('local-signup'), async (ctx) => {
+            console.log('\n\nhereeeee\n');
+            ctx.body = 'you made it';
+
+            //try {
+            //    // TODO: validate request body, implement unique email enforcement (do in local-signup handler?)
+            //    // add empty arrays for favorites and dislikes if the fields don't exist
+            //    ctx.body = await User.save(ctx.request.body);
+            //    ctx.status = 201;
+            //} catch (error) {
+            //    console.error(error);
+            //    ctx.status = 400;
+            //    ctx.body = 'Failed to create account for user.';
+            //}
         })
         .post('/signout', (ctx) => {
             ctx.status = 204;
