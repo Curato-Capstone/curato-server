@@ -8,10 +8,10 @@ export default function placeRouter() {
     const r = thinky.r;
 
     router
-        .put('/:id/favorite', async (ctx) => {
+        .post('/favorites/add', async (ctx) => {
             try {
-                await User.get(ctx.request.body.userId).update({
-                    favorites: r.row('favorites').append(ctx.params.id)
+                await User.get(ctx.session.passport.user.id).update({
+                    favorites: r.row('favorites').append(ctx.request.body.id)
                 }).run();
                 ctx.status = 204;
             } catch (error) {
@@ -19,12 +19,12 @@ export default function placeRouter() {
                 ctx.status = 400;
             }
         })
-        .put('/:id/remove', async (ctx) => {
+        .post('/favorites/remove', async (ctx) => {
             try {
-                await User.get(ctx.request.body.userId).update((row) => {
+                await User.get(ctx.session.passport.user.id).update((row) => {
                     return {
                         favorites: row('favorites').filter((item) => {
-                            return item.ne(ctx.params.id);
+                            return item.ne(ctx.request.body.id);
                         })
                     };
                 }).run();
@@ -34,10 +34,10 @@ export default function placeRouter() {
                 ctx.status = 400;
             }
         })
-        .put('/:id/dislike', async (ctx) => {
+        .post('/dislike', async (ctx) => {
             try {
-                await User.get(ctx.request.body.userId).update({
-                    dislikes: r.row('dislikes').append(ctx.params.id)
+                await User.get(ctx.session.passport.user.id).update({
+                    dislikes: r.row('dislikes').append(ctx.request.body.id)
                 }).run();
                 ctx.status = 204;
             } catch (error) {
