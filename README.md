@@ -287,15 +287,33 @@ Response (400): failed to update user's preferences
 
 ***
 
+**_GET /user/email?email=${email}_**
+
+Function
+Check if en email is already in the database.
+
+Query Parameters
+- email: the email to be checked
+
+Response Body (200)
+```yaml
+{
+    exists: (Boolean, required): true if the email already exists in the database
+}
+```
+
+***
+
 ## Suggestion API
 
-**_GET /suggestions/:id_**
+**_GET /suggestions?q=${q}&num_sugg=${num_sugg}_**
 
 Function:
 Get suggestions for this user based on their preferences.
 
-Parameters
-- id: the user's id
+Query Parameters
+- q: (String, optional) query term to search on
+- num_sugg: (Integer, optional) number of suggestions to get
 
 Response Body (200)
 ```yaml
