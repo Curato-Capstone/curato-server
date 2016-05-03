@@ -306,13 +306,14 @@ Response Body (200)
 
 ## Suggestion API
 
-**_GET /suggestions/:id_**
+**_GET /suggestions?q=${q}&num_sugg=${num_sugg}_**
 
 Function:
 Get suggestions for this user based on their preferences.
 
-Parameters
-- id: the user's id
+Query Parameters
+- q: (String, optional) query term to search on
+- num_sugg: (Integer, optional) number of suggestions to get
 
 Response Body (200)
 ```yaml

@@ -8,6 +8,7 @@ export default function placeRouter() {
     const r = thinky.r;
 
     router
+        // add a place to user's favorites
         .post('/favorites/add', async (ctx) => {
             try {
                 await User.get(ctx.session.passport.user.id).update({
@@ -19,6 +20,7 @@ export default function placeRouter() {
                 ctx.status = 400;
             }
         })
+        // remove a place from user's favorites
         .post('/favorites/remove', async (ctx) => {
             try {
                 await User.get(ctx.session.passport.user.id).update((row) => {
@@ -34,6 +36,7 @@ export default function placeRouter() {
                 ctx.status = 400;
             }
         })
+        // add place to user's dislike list
         .post('/dislike', async (ctx) => {
             try {
                 await User.get(ctx.session.passport.user.id).update({
