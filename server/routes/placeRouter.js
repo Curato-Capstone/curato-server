@@ -17,7 +17,6 @@ export default function placeRouter() {
                 ctx.status = 204;
             } catch (error) {
                 console.error(error);
-                ctx.status = 400;
             }
         })
         // remove a place from user's favorites
@@ -33,7 +32,6 @@ export default function placeRouter() {
                 ctx.status = 204;
             } catch (error) {
                 console.error(error);
-                ctx.status = 400;
             }
         })
         // add place to user's dislike list
@@ -45,7 +43,6 @@ export default function placeRouter() {
                 ctx.status = 204;
             } catch (error) {
                 console.error(error);
-                ctx.status = 400;
             }
         });
 

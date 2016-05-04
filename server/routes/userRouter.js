@@ -65,7 +65,6 @@ export default function userRouter(passport) {
                     ctx.status = 404;
                     ctx.body = 'User not found.';
                 } else {
-                    ctx.status = 400;
                     ctx.body = 'Failed to update user preferences.';
                 }
             }
@@ -77,7 +76,6 @@ export default function userRouter(passport) {
                 ctx.body = (email) ? { exists: true } : { exists: false };
             } catch (error) {
                 console.error(error);
-                ctx.status = 400;
             }
         });
 
