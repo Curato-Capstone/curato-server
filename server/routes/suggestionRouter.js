@@ -21,7 +21,7 @@ export default function suggestionRouter(jwt) {
                 ctx.body = res.body;
             } catch (error) {
                 console.error(error);
-                if (error.name == "JsonWebTokenError") {
+                if (error.name === 'JsonWebTokenError') {
                     ctx.status = 401;
                 }
             }
