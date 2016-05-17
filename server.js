@@ -14,7 +14,7 @@ if (!process.env.SESS_SECRET) {
     process.exit(1);
 }
 
-// TODO: make POST /suggestions public
+// TODO: refactor public endpoints out of other routers
 app
     .use(bodyParser())
     .use(convert(bearerToken()))

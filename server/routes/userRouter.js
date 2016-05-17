@@ -19,6 +19,7 @@ export default function userRouter(jwt) {
                 ctx.body = user;
             } catch (error) {
                 console.error(error);
+                ctx.body = error;
             }
         })
         // return list of places in user's favorites
@@ -32,6 +33,7 @@ export default function userRouter(jwt) {
                 ctx.body = res.body;
             } catch (error) {
                 console.error(error);
+                ctx.body = error;
             }
         })
         // authenticate user
@@ -57,6 +59,7 @@ export default function userRouter(jwt) {
                 }
             } catch (error) {
                 console.error(error);
+                ctx.body = error;
             }
         })
         .post('/signup', async (ctx) => {
@@ -82,6 +85,7 @@ export default function userRouter(jwt) {
                 }
             } catch (error) {
                 console.error(error);
+                ctx.body = error;
             }
         })
         // sign out user
@@ -101,6 +105,7 @@ export default function userRouter(jwt) {
                 ctx.body = user;
             } catch (error) {
                 console.error(error);
+                ctx.body = error;
                 if (error.name === 'DocumentNotFoundError') {
                     ctx.status = 404;
                     ctx.body = 'User not found.';
@@ -116,6 +121,7 @@ export default function userRouter(jwt) {
                 ctx.body = (email) ? { exists: true } : { exists: false };
             } catch (error) {
                 console.error(error);
+                ctx.body = error;
             }
         });
 

@@ -21,6 +21,7 @@ export default function suggestionRouter(jwt) {
                 ctx.body = res.body;
             } catch (error) {
                 console.error(error);
+                ctx.body = error;
                 if (error.name === 'JsonWebTokenError') {
                     ctx.status = 401;
                 }
@@ -37,6 +38,7 @@ export default function suggestionRouter(jwt) {
                 ctx.body = res.body;
             } catch (error) {
                 console.error(error);
+                ctx.body = error;
             }
         });
 

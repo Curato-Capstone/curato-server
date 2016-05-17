@@ -20,6 +20,7 @@ export default function placeRouter(jwt) {
                 ctx.status = 204;
             } catch (error) {
                 console.error(error);
+                ctx.body = error;
             }
         })
         // remove a place from user's favorites
@@ -36,6 +37,7 @@ export default function placeRouter(jwt) {
                 ctx.status = 204;
             } catch (error) {
                 console.error(error);
+                ctx.body = error;
             }
         })
         // add place to user's dislike list
@@ -48,6 +50,7 @@ export default function placeRouter(jwt) {
                 ctx.status = 204;
             } catch (error) {
                 console.error(error);
+                ctx.body = error;
             }
         })
         .get('/:id', async (ctx) => {
@@ -56,6 +59,7 @@ export default function placeRouter(jwt) {
                 ctx.body = res.body;
             } catch (error) {
                 console.error(error);
+                ctx.body = error;
             }
         });
 
