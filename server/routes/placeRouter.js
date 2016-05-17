@@ -1,11 +1,13 @@
 import User from '../models/user';
 import Router from 'koa-router';
 import thinky from '../util/thinky';
+import request from 'superagent-bluebird-promise';
 
 
 export default function placeRouter(jwt) {
     const router = Router({ prefix: '/place' });
     const r = thinky.r;
+    const baseUrl = 'http://ec2-52-38-203-54.us-west-2.compute.amazonaws.com:5000';
 
     router
         // add a place to user's favorites
@@ -44,6 +46,14 @@ export default function placeRouter(jwt) {
                     dislikes: r.row('dislikes').append(ctx.request.body.id)
                 }).run();
                 ctx.status = 204;
+            } catch (error) {
+                console.error(error);
+            }
+        })
+        .get('/:id', async (ctx) => {
+            try {
+                let res = await request.get(baseUrl + '/place/' + ctx.params.id);
+                ctx.body = res.body;
             } catch (error) {
                 console.error(error);
             }

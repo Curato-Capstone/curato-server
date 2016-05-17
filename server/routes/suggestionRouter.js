@@ -29,9 +29,11 @@ export default function suggestionRouter(jwt) {
         // use passed preferences object to get preferences
         .post('/', async (ctx) => {
             try {
+                let body = ctx.request.body;
+                if (!body.q) { body.q = ''; }
                 let res = await request
                     .post(baseUrl + '/suggestions')
-                    .send(ctx.request.body.preferences);
+                    .send(body);
                 ctx.body = res.body;
             } catch (error) {
                 console.error(error);
