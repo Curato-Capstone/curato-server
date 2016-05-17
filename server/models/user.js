@@ -12,11 +12,11 @@ const User = thinky.createModel('users', {
     favorites   : type.array().schema(type.string()).required(),
     dislikes    : type.array().schema(type.string()).required(),
     preferences : type.object().schema({
-        culture       : type.number().min(1).max(5).required(),
+        art           : type.number().min(1).max(5).required(),
         entertainment : type.number().min(1).max(5).required(),
         food          : type.number().min(1).max(5).required(),
         outdoors      : type.number().min(1).max(5).required(),
-        price         : type.number().min(1).max(5).required(),
+        history       : type.number().min(1).max(5).required(),
         relaxation    : type.number().min(1).max(5).required(),
         shopping      : type.number().min(1).max(5).required(),
         sports        : type.number().min(1).max(5).required()
