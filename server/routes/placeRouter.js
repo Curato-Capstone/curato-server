@@ -3,7 +3,7 @@ import Router from 'koa-router';
 import thinky from '../util/thinky';
 
 
-export default function placeRouter() {
+export default function placeRouter(jwt) {
     const router = Router({ prefix: '/place' });
     const r = thinky.r;
 
@@ -11,7 +11,8 @@ export default function placeRouter() {
         // add a place to user's favorites
         .post('/favorites/add', async (ctx) => {
             try {
-                await User.get(ctx.session.passport.user.id).update({
+                const decoded = jwt.verify(ctx.request.token, process.env.SESS_SECRET)[0];
+                await User.get(decoded.id).update({
                     favorites: r.row('favorites').append(ctx.request.body.id)
                 }).run();
                 ctx.status = 204;
@@ -22,7 +23,8 @@ export default function placeRouter() {
         // remove a place from user's favorites
         .post('/favorites/remove', async (ctx) => {
             try {
-                await User.get(ctx.session.passport.user.id).update((row) => {
+                const decoded = jwt.verify(ctx.request.token, process.env.SESS_SECRET)[0];
+                await User.get(decoded.id).update((row) => {
                     return {
                         favorites: row('favorites').filter((item) => {
                             return item.ne(ctx.request.body.id);
@@ -37,7 +39,8 @@ export default function placeRouter() {
         // add place to user's dislike list
         .post('/dislike', async (ctx) => {
             try {
-                await User.get(ctx.session.passport.user.id).update({
+                const decoded = jwt.verify(ctx.request.token, process.env.SESS_SECRET)[0];
+                await User.get(decoded.id).update({
                     dislikes: r.row('dislikes').append(ctx.request.body.id)
                 }).run();
                 ctx.status = 204;

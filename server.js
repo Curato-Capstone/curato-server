@@ -5,23 +5,28 @@ import convert from 'koa-convert';
 
 // Authentication
 // --------------------------------------------------
-import passport from './server/util/passport';
-import session from 'koa-session';
+import jwt from 'koa-jwt';
+import bearerToken from 'koa-bearer-token';
+import bodyParser from 'koa-bodyparser';
 
-if (!process.env.SIG_SECRET) {
-    console.error('please set SIG_SECRET, try: \nexport SIG_SECRET=$(uuidgen)');
+if (!process.env.SESS_SECRET) {
+    console.error('please set SESS_SECRET, try: \nexport SESS_SECRET=$(uuidgen)');
     process.exit(1);
 }
-app.keys = [process.env.SIG_SECRET];
-app.use(convert(session(app)));
-app.use(passport.initialize());
-app.use(passport.session());
+
+// TODO: make POST /suggestions public
+app
+    .use(bodyParser())
+    .use(convert(bearerToken()))
+    .use(convert(jwt({
+        secret: process.env.SESS_SECRET
+    }).unless({
+        path: [/^\/user\/email/, /^\/user\/signin/, /^\/user\/signup/, /^\/suggestions/]
+    })));
 
 
 // Routing
 // --------------------------------------------------
-// import router from 'koa-router';
-import bodyParser from 'koa-bodyparser';
 import cors from 'koa-cors';
 
 import userRouter from './server/routes/userRouter';
@@ -29,11 +34,10 @@ import placeRouter from './server/routes/placeRouter';
 import suggestionRouter from './server/routes/suggestionRouter';
 
 app
-    .use(bodyParser())
     .use(convert(cors()))
-    .use(userRouter(passport).routes())
-    .use(placeRouter().routes())
-    .use(suggestionRouter().routes());
+    .use(userRouter(jwt).routes())
+    .use(placeRouter(jwt).routes())
+    .use(suggestionRouter(jwt).routes());
 
 
 // Start Server
