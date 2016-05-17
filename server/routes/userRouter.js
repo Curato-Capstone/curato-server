@@ -49,7 +49,7 @@ export default function userRouter(jwt) {
                     delete user.password;
                     delete user.dislikes;
                     ctx.body = user;
-                    ctx.set('Authorization', token);
+                    ctx.set('Authorization', 'Bearer ' + token);
                     ctx.status = 200;
                 } else {
                     ctx.status = 404;
@@ -77,7 +77,7 @@ export default function userRouter(jwt) {
                     delete user.password;
                     delete user.dislikes;
                     ctx.body = user;
-                    ctx.set('Authorization', token);
+                    ctx.set('Authorization', 'Bearer ' + token);
                     ctx.status = 201;
                 }
             } catch (error) {
