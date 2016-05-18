@@ -9,6 +9,7 @@ export default function suggestionRouter(jwt) {
     router
         // user user data to get suggestions
         .get('/', async (ctx) => {
+            console.log(ctx.request);
             try { // magic
                 const decoded = jwt.verify(ctx.request.token, process.env.SESS_SECRET)[0];
                 let res = await request
@@ -29,6 +30,7 @@ export default function suggestionRouter(jwt) {
         })
         // use passed preferences object to get preferences
         .post('/', async (ctx) => {
+            console.log(ctx.request);
             try {
                 let body = ctx.request.body;
                 if (!body.q) { body.q = ''; }

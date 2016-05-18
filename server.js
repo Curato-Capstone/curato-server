@@ -6,6 +6,7 @@ import convert from 'koa-convert';
 // Authentication
 // --------------------------------------------------
 import jwt from 'koa-jwt';
+import cors from 'koa-cors';
 import bearerToken from 'koa-bearer-token';
 import bodyParser from 'koa-bodyparser';
 
@@ -16,6 +17,7 @@ if (!process.env.SESS_SECRET) {
 
 // TODO: refactor public endpoints out of other routers
 app
+    .use(convert(cors()))
     .use(bodyParser())
     .use(convert(bearerToken()))
     .use(convert(jwt({
@@ -27,14 +29,11 @@ app
 
 // Routing
 // --------------------------------------------------
-import cors from 'koa-cors';
-
 import userRouter from './server/routes/userRouter';
 import placeRouter from './server/routes/placeRouter';
 import suggestionRouter from './server/routes/suggestionRouter';
 
 app
-    .use(convert(cors()))
     .use(userRouter(jwt).routes())
     .use(placeRouter(jwt).routes())
     .use(suggestionRouter(jwt).routes());

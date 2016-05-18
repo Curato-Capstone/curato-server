@@ -12,6 +12,7 @@ export default function placeRouter(jwt) {
     router
         // add a place to user's favorites
         .post('/favorites/add', async (ctx) => {
+            console.log(ctx.request);
             try {
                 const decoded = jwt.verify(ctx.request.token, process.env.SESS_SECRET)[0];
                 await User.get(decoded.id).update({
@@ -25,6 +26,7 @@ export default function placeRouter(jwt) {
         })
         // remove a place from user's favorites
         .post('/favorites/remove', async (ctx) => {
+            console.log(ctx.request);
             try {
                 const decoded = jwt.verify(ctx.request.token, process.env.SESS_SECRET)[0];
                 await User.get(decoded.id).update((row) => {
@@ -42,6 +44,7 @@ export default function placeRouter(jwt) {
         })
         // add place to user's dislike list
         .post('/dislike', async (ctx) => {
+            console.log(ctx.request);
             try {
                 const decoded = jwt.verify(ctx.request.token, process.env.SESS_SECRET)[0];
                 await User.get(decoded.id).update({
@@ -54,6 +57,7 @@ export default function placeRouter(jwt) {
             }
         })
         .get('/:id', async (ctx) => {
+            console.log(ctx.request);
             try {
                 let res = await request.get(baseUrl + '/place/' + ctx.params.id);
                 ctx.body = res.body;
