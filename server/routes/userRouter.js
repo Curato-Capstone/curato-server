@@ -12,6 +12,7 @@ export default function userRouter(jwt) {
         // return user data
         .get('/', async (ctx) => {
             try {
+                console.log(ctx.request);
                 const decoded = jwt.verify(ctx.request.token, process.env.SESS_SECRET)[0];
                 let user = await User.get(decoded.id).run();
                 delete user.password;
@@ -52,6 +53,7 @@ export default function userRouter(jwt) {
                     delete user.dislikes;
                     ctx.body = user;
                     ctx.set('Authorization', 'Bearer ' + token);
+                    ctx.set('Access-Control-Expose-Headers', 'Authorization'); // should be done by the cors middleware...
                     ctx.status = 200;
                 } else {
                     ctx.status = 404;
@@ -80,6 +82,7 @@ export default function userRouter(jwt) {
                     delete user.password;
                     delete user.dislikes;
                     ctx.body = user;
+                    ctx.set('Access-Control-Expose-Headers', 'Authorization');
                     ctx.set('Authorization', 'Bearer ' + token);
                     ctx.status = 201;
                 }
