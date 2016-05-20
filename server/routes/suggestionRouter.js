@@ -27,21 +27,6 @@ export default function suggestionRouter(jwt) {
                     ctx.status = 401;
                 }
             }
-        })
-        // use passed preferences object to get preferences
-        .post('/', async (ctx) => {
-            console.log(ctx.request);
-            try {
-                let body = ctx.request.body;
-                if (!body.q) { body.q = ''; }
-                let res = await request
-                    .post(baseUrl + '/suggestions')
-                    .send(body);
-                ctx.body = res.body;
-            } catch (error) {
-                console.error(error);
-                ctx.body = error;
-            }
         });
 
     return router;

@@ -122,17 +122,6 @@ export default function userRouter(jwt) {
                     ctx.body = 'Failed to update user.';
                 }
             }
-        })
-        // check if email already exists in db
-        .get('/email', async (ctx) => {
-            console.log(ctx.request);
-            try {
-                let email = await thinky.r.table('emails').get(ctx.query.email).run();
-                ctx.body = (email) ? { exists: true } : { exists: false };
-            } catch (error) {
-                console.error(error);
-                ctx.body = error;
-            }
         });
 
     return router;

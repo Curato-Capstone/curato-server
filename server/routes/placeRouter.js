@@ -55,16 +55,6 @@ export default function placeRouter(jwt) {
                 console.error(error);
                 ctx.body = error;
             }
-        })
-        .get('/:id', async (ctx) => {
-            console.log(ctx.request);
-            try {
-                let res = await request.get(baseUrl + '/place/' + ctx.params.id);
-                ctx.body = res.body;
-            } catch (error) {
-                console.error(error);
-                ctx.body = error;
-            }
         });
 
     return router;

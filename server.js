@@ -5,6 +5,7 @@ import convert from 'koa-convert';
 
 // Authentication
 // --------------------------------------------------
+import publicRouter from './server/routes/public';
 import jwt from 'koa-jwt';
 import cors from 'koa-cors';
 import bearerToken from 'koa-bearer-token';
@@ -17,13 +18,14 @@ if (!process.env.SESS_SECRET) {
 
 // TODO: refactor public endpoints out of other routers
 app
+    .use(publicRouter().routes())
     .use(convert(cors()))
     .use(bodyParser())
     .use(convert(bearerToken()))
     .use(convert(jwt({
         secret: process.env.SESS_SECRET
     }).unless({
-        path: [/^\/user\/email/, /^\/user\/signin/, /^\/user\/signup/, /^\/suggestions/]
+        path: [/^\/user\/signin/, /^\/user\/signup/]
     })));
 
 
