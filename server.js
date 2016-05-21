@@ -16,11 +16,10 @@ if (!process.env.SESS_SECRET) {
     process.exit(1);
 }
 
-// TODO: refactor public endpoints out of other routers
 app
-    .use(publicRouter().routes())
     .use(convert(cors()))
     .use(bodyParser())
+    .use(publicRouter().routes())
     .use(convert(bearerToken()))
     .use(convert(jwt({
         secret: process.env.SESS_SECRET

@@ -25,6 +25,8 @@ export default function suggestionRouter(jwt) {
                 ctx.body = error;
                 if (error.name === 'JsonWebTokenError') {
                     ctx.status = 401;
+                } else if (error === "SuperagentPromiseError") {
+                    ctx.status = 400;
                 }
             }
         });

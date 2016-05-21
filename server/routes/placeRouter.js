@@ -7,7 +7,6 @@ import request from 'superagent-bluebird-promise';
 export default function placeRouter(jwt) {
     const router = Router({ prefix: '/place' });
     const r = thinky.r;
-    const baseUrl = 'http://ec2-52-38-203-54.us-west-2.compute.amazonaws.com:5000';
 
     router
         // add a place to user's favorites

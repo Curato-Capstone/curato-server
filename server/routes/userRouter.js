@@ -37,6 +37,9 @@ export default function userRouter(jwt) {
             } catch (error) {
                 console.error(error);
                 ctx.body = error;
+                if (error === "SuperagentPromiseError") {
+                    ctx.status = 400;
+                }
             }
         })
         // authenticate user
