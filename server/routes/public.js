@@ -31,7 +31,7 @@ export default function publicRouter() {
                 ctx.body = res.body;
             } catch (error) {
                 console.error(error);
-                if (error === "SuperagentPromiseError") {
+                if (error.name === "SuperagentPromiseError") {
                     ctx.status = 400;
                 }
                 ctx.body = error;
