@@ -6,10 +6,20 @@ export default function suggestionRouter(jwt) {
     const router = Router({ prefix: '/suggestions' });
     const baseUrl = 'http://ec2-52-38-203-54.us-west-2.compute.amazonaws.com:5000';
 
+    function log(err, req) {
+        if (err) {
+            console.log('\n-----------------------error-----------------------');
+            console.log(err);
+        } else {
+            console.log('\n-----------------------request-----------------------');
+            console.log(req);
+        }
+    }
+
     router
         // user user data to get suggestions
         .get('/', async (ctx) => {
-            console.log(ctx.request);
+            log(null, ctx.request);
             try { // magic
                 const decoded = jwt.verify(ctx.request.token, process.env.SESS_SECRET)[0];
                 let res = await request
@@ -21,7 +31,7 @@ export default function suggestionRouter(jwt) {
                     });
                 ctx.body = res.body;
             } catch (error) {
-                console.error(error);
+                log(error);
                 ctx.body = error;
                 if (error.name === 'JsonWebTokenError') {
                     ctx.status = 401;

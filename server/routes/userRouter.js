@@ -8,10 +8,20 @@ import request from 'superagent-bluebird-promise';
 export default function userRouter(jwt) {
     const router = new Router({ prefix: '/user' });
 
+    function log(err, req) {
+        if (err) {
+            console.log('\n-----------------------error-----------------------');
+            console.log(err);
+        } else {
+            console.log('\n-----------------------request-----------------------');
+            console.log(req);
+        }
+    }
+
     router
         // return user data
         .get('/', async (ctx) => {
-            console.log(ctx.request);
+            log(null, ctx.request);
             try {
                 console.log(ctx.request);
                 const decoded = jwt.verify(ctx.request.token, process.env.SESS_SECRET)[0];
@@ -20,13 +30,13 @@ export default function userRouter(jwt) {
                 delete user.dislikes;
                 ctx.body = user;
             } catch (error) {
-                console.error(error);
+                log(error);
                 ctx.body = error;
             }
         })
         // return list of places in user's favorites
         .get('/favorites', async (ctx) => {
-            console.log(ctx.request);
+            log(null, ctx.request);
             try {
                 const decoded = jwt.verify(ctx.request.token, process.env.SESS_SECRET)[0];
                 let user = await User.get(decoded.id).run();
@@ -35,7 +45,7 @@ export default function userRouter(jwt) {
                     .send({ favorites: user.favorites });
                 ctx.body = res.body;
             } catch (error) {
-                console.error(error);
+                log(error);
                 ctx.body = error;
                 if (error.name === 'SuperagentPromiseError') {
                     ctx.status = 400;
@@ -44,7 +54,7 @@ export default function userRouter(jwt) {
         })
         // authenticate user
         .post('/signin', async (ctx) => {
-            console.log(ctx.request);
+            log(null, ctx.request);
             try {
                 // TODO: add password encryption
 
@@ -66,12 +76,12 @@ export default function userRouter(jwt) {
                     ctx.body = 'User not found';
                 }
             } catch (error) {
-                console.error(error);
+                log(error);
                 ctx.body = error;
             }
         })
         .post('/signup', async (ctx) => {
-            console.log(ctx.request);
+            log(null, ctx.request);
             try {
                 const body = ctx.request.body;
                 const exists = await thinky.r.table('emails').get(body.email).run();
@@ -94,13 +104,13 @@ export default function userRouter(jwt) {
                     ctx.status = 201;
                 }
             } catch (error) {
-                console.error(error);
+                log(error);
                 ctx.body = error;
             }
         })
         // sign out user
         .post('/signout', (ctx) => {
-            console.log(ctx.request);
+            log(null, ctx.request);
             // ctx.logout();
             // ctx.session = null;
             // TODO: figure out how to invalidate a jwt?
@@ -108,7 +118,7 @@ export default function userRouter(jwt) {
         })
         // update user
         .put('/', async (ctx) => {
-            console.log(ctx.request);
+            log(null, ctx.request);
             try {
                 const decoded = jwt.verify(ctx.request.token, process.env.SESS_SECRET)[0];
                 let user = await User.get(decoded.id).update(ctx.request.body).run();
@@ -116,7 +126,7 @@ export default function userRouter(jwt) {
                 delete user.dislikes;
                 ctx.body = user;
             } catch (error) {
-                console.error(error);
+                log(error);
                 ctx.body = error;
                 if (error.name === 'DocumentNotFoundError') {
                     ctx.status = 404;
