@@ -354,6 +354,29 @@ Response (400): failed to retrieve suggestions for user
 
 ***
 
+**_POST /suggestions_**
+
+Function:
+Get suggestions based on a set of preferences.
+
+Request Body
+```yaml
+{
+    preferences: {
+        price: (Int, required) user's rating for importance of this category,
+        culture: (Int, required),
+        food: (Int, required),
+        outdoors: (Int, required),
+        entertainment: (Int, required),
+        relaxation: (Int, required),
+        shopping: (Int, required),
+        sports: (Int, required)
+    }
+}
+```
+
+***
+
 ## Places API
 
 **_POST /place/favorites/add_**

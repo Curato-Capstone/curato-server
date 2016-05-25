@@ -1,83 +1,139 @@
 import User from '../models/user';
+import Email from '../models/email';
 import Router from 'koa-router';
 import thinky from '../util/thinky';
 import request from 'superagent-bluebird-promise';
 
 
-export default function userRouter(passport) {
+export default function userRouter(jwt) {
     const router = new Router({ prefix: '/user' });
+
+    function log(err, req) {
+        if (err) {
+            console.log('\n-----------------------error-----------------------');
+            console.log(err);
+        } else {
+            console.log('\n-----------------------request-----------------------');
+            console.log(req);
+        }
+    }
 
     router
         // return user data
         .get('/', async (ctx) => {
+            log(null, ctx.request);
             try {
-                let user = await User.get(ctx.session.passport.user.id).run();
+                console.log(ctx.request);
+                const decoded = jwt.verify(ctx.request.token, process.env.SESS_SECRET)[0];
+                let user = await User.get(decoded.id).run();
                 delete user.password;
                 delete user.dislikes;
                 ctx.body = user;
             } catch (error) {
-                console.error(error);
+                log(error);
+                ctx.body = error;
             }
         })
         // return list of places in user's favorites
         .get('/favorites', async (ctx) => {
+            log(null, ctx.request);
             try {
-                let user = await User.get(ctx.session.passport.user.id).run();
+                const decoded = jwt.verify(ctx.request.token, process.env.SESS_SECRET)[0];
+                let user = await User.get(decoded.id).run();
                 let res = await request
                     .post('http://ec2-52-38-203-54.us-west-2.compute.amazonaws.com:5000/business-info')
                     .send({ favorites: user.favorites });
                 ctx.body = res.body;
             } catch (error) {
-                console.error(error);
+                log(error);
+                ctx.body = error;
+                if (error.name === 'SuperagentPromiseError') {
+                    ctx.status = 400;
+                }
             }
         })
         // authenticate user
-        .post('/signin', passport.authenticate('local-signin'), async (ctx) => {
-            let user = ctx.session.passport.user;
-            delete user.password;
-            delete user.dislikes;
-            ctx.body = user;
+        .post('/signin', async (ctx) => {
+            log(null, ctx.request);
+            try {
+                // TODO: add password encryption
+
+                const user = await User.filter((item) => {
+                    return item('email').eq(ctx.request.body.email)
+                        .and(item('password').eq(ctx.request.body.password));
+                }).run();
+
+                if (user) {
+                    const token = jwt.sign(user, process.env.SESS_SECRET);
+                    delete user.password;
+                    delete user.dislikes;
+                    ctx.body = user;
+                    ctx.set('Authorization', 'Bearer ' + token);
+                    ctx.set('Access-Control-Expose-Headers', 'Authorization'); // should be done by the cors middleware...
+                    ctx.status = 200;
+                } else {
+                    ctx.status = 404;
+                    ctx.body = 'User not found';
+                }
+            } catch (error) {
+                log(error);
+                ctx.body = error;
+            }
         })
-        // create user account in db & authenticate
-        .post('/signup', passport.authenticate('local-signup'), async (ctx) => {
-            let user = ctx.session.passport.user;
-            delete user.password;
-            delete user.dislikes;
-            ctx.body = user;
+        .post('/signup', async (ctx) => {
+            log(null, ctx.request);
+            try {
+                const body = ctx.request.body;
+                const exists = await thinky.r.table('emails').get(body.email).run();
+                if (exists) {
+                    // enforce email uniqueness
+                    ctx.status = 401;
+                    ctx.body = 'User with specified email already exists';
+                } else {
+                    if (!body.favorites) { body.favorites = []; }
+                    if (!body.dislikes) { body.dislikes = []; }
+                    await Email.save({ email: body.email });
+                    let user = await User.save(body); // save user
+
+                    const token = jwt.sign(user, process.env.SESS_SECRET);
+                    delete user.password;
+                    delete user.dislikes;
+                    ctx.body = user;
+                    ctx.set('Access-Control-Expose-Headers', 'Authorization');
+                    ctx.set('Authorization', 'Bearer ' + token);
+                    ctx.status = 201;
+                }
+            } catch (error) {
+                log(error);
+                ctx.body = error;
+            }
         })
         // sign out user
         .post('/signout', (ctx) => {
-            ctx.logout();
+            log(null, ctx.request);
+            // ctx.logout();
+            // ctx.session = null;
+            // TODO: figure out how to invalidate a jwt?
             ctx.status = 204;
         })
         // update user
         .put('/', async (ctx) => {
+            log(null, ctx.request);
             try {
-                let user = await User
-                    .get(ctx.session.passport.user.id)
-                    .update(ctx.request.body).run();
+                const decoded = jwt.verify(ctx.request.token, process.env.SESS_SECRET)[0];
+                let user = await User.get(decoded.id).update(ctx.request.body).run();
                 delete user.password;
                 delete user.dislikes;
                 ctx.body = user;
             } catch (error) {
-                console.error(error);
+                log(error);
+                ctx.body = error;
                 if (error.name === 'DocumentNotFoundError') {
                     ctx.status = 404;
                     ctx.body = 'User not found.';
                 } else {
-                    ctx.status = 400;
-                    ctx.body = 'Failed to update user preferences.';
+                    ctx.body = 'Failed to update user.';
                 }
-            }
-        })
-        // check if email already exists in db
-        .get('/email', async (ctx) => {
-            try {
-                let email = await thinky.r.table('emails').get(ctx.query.email).run();
-                ctx.body = (email) ? { exists: true } : { exists: false };
-            } catch (error) {
-                console.error(error);
-                ctx.status = 400;
             }
         });
 
