@@ -25,7 +25,6 @@ export default function userRouter(jwt) {
         .get('/', async (ctx) => {
             log(null, ctx.request);
             try {
-                console.log(ctx.request);
                 const decoded = jwt.verify(ctx.request.token, process.env.SESS_SECRET)[0];
                 let user = await User.get(decoded.id).run();
                 delete user.password;
@@ -60,12 +59,13 @@ export default function userRouter(jwt) {
             try {
                 // TODO: add password encryption
 
-                const user = await User.filter((item) => {
+                let user = await User.filter((item) => {
                     return item('email').eq(ctx.request.body.email)
                         .and(item('password').eq(ctx.request.body.password));
                 }).run();
 
                 if (user) {
+                    user = user[0];
                     const token = jwt.sign(user, process.env.SESS_SECRET);
                     delete user.password;
                     delete user.dislikes;
