@@ -1,7 +1,6 @@
 import User from '../models/user';
 import Router from 'koa-router';
 import thinky from '../util/thinky';
-import request from 'superagent-bluebird-promise';
 
 
 export default function placeRouter(jwt) {
@@ -15,6 +14,8 @@ export default function placeRouter(jwt) {
         } else {
             console.log('\n-----------------------request-----------------------');
             console.log(req);
+            console.log('body:');
+            console.log(req.body);
         }
     }
 

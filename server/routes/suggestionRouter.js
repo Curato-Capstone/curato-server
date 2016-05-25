@@ -13,6 +13,8 @@ export default function suggestionRouter(jwt) {
         } else {
             console.log('\n-----------------------request-----------------------');
             console.log(req);
+            console.log('body:');
+            console.log(req.body);
         }
     }
 

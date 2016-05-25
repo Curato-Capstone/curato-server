@@ -14,6 +14,8 @@ export default function publicRouter() {
         } else {
             console.log('\n-----------------------request-----------------------');
             console.log(req);
+            console.log('body:');
+            console.log(req.body);
         }
     }
 
@@ -41,7 +43,7 @@ export default function publicRouter() {
                 ctx.body = res.body;
             } catch (error) {
                 log(error);
-                if (error.name === "SuperagentPromiseError") {
+                if (error.name === 'SuperagentPromiseError') {
                     ctx.status = 400;
                 }
                 ctx.body = error;

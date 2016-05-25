@@ -15,6 +15,8 @@ export default function userRouter(jwt) {
         } else {
             console.log('\n-----------------------request-----------------------');
             console.log(req);
+            console.log('body:');
+            console.log(req.body);
         }
     }
 
@@ -69,7 +71,8 @@ export default function userRouter(jwt) {
                     delete user.dislikes;
                     ctx.body = user;
                     ctx.set('Authorization', 'Bearer ' + token);
-                    ctx.set('Access-Control-Expose-Headers', 'Authorization'); // should be done by the cors middleware...
+                    // expose headers should be done by the cors middleware...
+                    ctx.set('Access-Control-Expose-Headers', 'Authorization');
                     ctx.status = 200;
                 } else {
                     ctx.status = 404;
