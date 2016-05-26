@@ -60,8 +60,8 @@ export default function userRouter(jwt) {
                 // TODO: add password encryption
 
                 let user = await User.filter((item) => {
-                    return item('email').toLowerCase().eq(ctx.request.body.email.toLowerCase())
-                        .and(item('password').toLowerCase().eq(ctx.request.body.password.toLowerCase()));
+                    return item('email').eq(ctx.request.body.email)
+                        .and(item('password').eq(ctx.request.body.password));
                 }).run();
 
                 if (user) {
@@ -87,7 +87,7 @@ export default function userRouter(jwt) {
             log(null, ctx.request);
             try {
                 const body = ctx.request.body;
-                const exists = await thinky.r.table('emails').get(body.email.toLowerCase()).run();
+                const exists = await thinky.r.table('emails').get(body.email).run();
                 if (exists) {
                     // enforce email uniqueness
                     ctx.status = 401;
@@ -95,7 +95,6 @@ export default function userRouter(jwt) {
                 } else {
                     if (!body.favorites) { body.favorites = []; }
                     if (!body.dislikes) { body.dislikes = []; }
-                    body.email = body.email.toLowerCase();
                     await Email.save({ email: body.email });
                     let user = await User.save(body); // save user
 
