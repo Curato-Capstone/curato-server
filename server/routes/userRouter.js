@@ -59,13 +59,12 @@ export default function userRouter(jwt) {
             try {
                 // TODO: add password encryption
 
-                let user = await User.filter((item) => {
+                const user = await User.filter((item) => {
                     return item('email').eq(ctx.request.body.email)
                         .and(item('password').eq(ctx.request.body.password));
                 }).run();
 
-                if (user) {
-                    user = user[0];
+                if (user.length != 0) {
                     const token = jwt.sign(user, process.env.SESS_SECRET);
                     delete user.password;
                     delete user.dislikes;
