@@ -60,8 +60,8 @@ export default function userRouter(jwt) {
                 // TODO: add password encryption
 
                 let user = await User.filter((item) => {
-                    return item('email').eq(ctx.request.body.email.toLowerCase())
-                        .and(item('password').eq(ctx.request.body.password.toLowerCase()));
+                    return item('email').toLowerCase().eq(ctx.request.body.email.toLowerCase())
+                        .and(item('password').toLowerCase().eq(ctx.request.body.password.toLowerCase()));
                 }).run();
 
                 if (user) {
